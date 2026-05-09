@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Interview Preparation</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+
+      <h1>AI Interview Preparation</h1>
+
+      <button id="startBtn">
+        Start Interview
+      </button>
+
+      <button id="nextBtn">
+        Next Question
+      </button>
+
+      <div class="question-box">
+
+        <h2>Interview Question</h2>
+
+        <p id="questionText">
+          Click Start Interview
+        </p>
+
+      </div>
+
+      <!-- ANSWER BOX -->
+      <textarea
+        id="answerBox"
+        placeholder="Type your answer here..."
+      ></textarea>
+
+      <!-- SUBMIT BUTTON -->
+      <button id="submitBtn">
+        Submit Answer
+      </button>
+
+      <!-- SUBMITTED ANSWER -->
+      <div class="answer-display">
+
+        <h3>Your Submitted Answer:</h3>
+
+        <p id="submittedAnswer">
+          No answer submitted
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+
+      <h1>Emotion Detection</h1>
+
+      <video
+        id="webcam"
+        autoplay
+      ></video>
+
+      <div class="feedback-box">
+
+        <h2>Feedback</h2>
+
+        <p id="confidence">
+          Confidence: Good 🙂
+        </p>
+
+        <p id="eyeContact">
+          Eye Contact: Maintain 👀
+        </p>
+
+        <p id="posture">
+          Posture: Straight 👍
+        </p>
+
+        <p id="nervousness">
+          Nervousness: Low 😊
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
