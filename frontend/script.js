@@ -1,4 +1,6 @@
-const questions = [
+// COMMON HR QUESTIONS
+
+const commonQuestions = [
 
   "Tell me about yourself",
 
@@ -8,17 +10,79 @@ const questions = [
 
   "Why should we hire you?",
 
-  "What is Artificial Intelligence?",
+  "Where do you see yourself in 5 years?",
 
-  "Explain DBMS",
-
-  "What is Machine Learning?",
-
-  "Explain your role in the project"
+  "What are your weaknesses?"
 
 ];
 
 
+
+
+// COURSE QUESTIONS
+
+const courseQuestions = {
+
+  "AI/ML":[
+
+    "What is Machine Learning?",
+
+    "Difference between AI and ML?",
+
+    "Explain Neural Networks",
+
+    "What is Deep Learning?",
+
+    "Explain supervised learning"
+
+  ],
+
+
+  "Web Development":[
+
+    "What is HTML?",
+
+    "Difference between CSS and Bootstrap?",
+
+    "Explain JavaScript",
+
+    "What is Responsive Design?",
+
+    "What is React?"
+
+  ],
+
+
+  "Data Science":[
+
+    "What is Data Science?",
+
+    "Explain Data Analysis",
+
+    "What is Pandas?",
+
+    "Explain NumPy",
+
+    "What is Data Visualization?"
+
+  ],
+
+
+  "Cyber Security":[
+
+    "What is Cyber Security?",
+
+    "Explain Firewall",
+
+    "What is Ethical Hacking?",
+
+    "Explain Phishing",
+
+    "What is Network Security?"
+
+  ]
+
+};
 // ELEMENTS
 const questionText =
   document.getElementById("questionText");
@@ -39,29 +103,58 @@ const submittedAnswer =
   document.getElementById("submittedAnswer");
 
 
-// ASK QUESTION FUNCTION
 function askQuestion(){
 
-  // RANDOM QUESTION
-  const randomQuestion =
-    questions[Math.floor(Math.random() * questions.length)];
+  const selectedCourse =
+    courseSelect.value;
 
-  // SHOW QUESTION
+  const technicalQuestions =
+    courseQuestions[selectedCourse];
+
+
+
+  // COMBINE QUESTIONS
+
+  const allQuestions = [
+
+    ...commonQuestions,
+
+    ...technicalQuestions
+
+  ];
+
+
+
+  const randomQuestion =
+    allQuestions[
+      Math.floor(Math.random()*allQuestions.length)
+    ];
+
+
   questionText.innerText =
     randomQuestion;
 
-  // CLEAR PREVIOUS ANSWER
-  answerBox.value = "";
+    // CLEAR OLD ANSWER
 
-  // CLEAR PREVIOUS SUBMITTED ANSWER
-  submittedAnswer.innerText =
-    "No answer submitted";
+answerBox.value = "";
 
-  // VOICE OUTPUT
+submittedAnswer.innerText = "";
+
+
+
+  // AI VOICE
+
   const speech =
     new SpeechSynthesisUtterance(randomQuestion);
 
+  speech.rate = 1;
+
+  speech.pitch = 1;
+
+  speech.volume = 1;
+
   window.speechSynthesis.speak(speech);
+
 }
 
 

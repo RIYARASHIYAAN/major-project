@@ -2,103 +2,149 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AI Interview Preparation</title>
+    <meta charset="UTF-8">
 
-  <link rel="stylesheet" href="style.css">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Interview Preparation</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <div class="container">
+    <div class="container">
 
-    <!-- LEFT SIDE -->
-    <div class="left-panel">
 
-      <h1>AI Interview Preparation</h1>
+        <!-- LEFT PANEL -->
 
-      <button id="startBtn">
-        Start Interview
-      </button>
+        <div class="left-panel">
 
-      <button id="nextBtn">
-        Next Question
-      </button>
+            <h1>AI Interview Preparation</h1>
 
-      <div class="question-box">
 
-        <h2>Interview Question</h2>
+            <label>Select Course:</label>
 
-        <p id="questionText">
-          Click Start Interview
-        </p>
+            <br><br>
 
-      </div>
+            <select id="courseSelect">
 
-      <!-- ANSWER BOX -->
-      <textarea
-        id="answerBox"
-        placeholder="Type your answer here..."
-      ></textarea>
+                <option value="AI/ML">
+                    AI/ML
+                </option>
 
-      <!-- SUBMIT BUTTON -->
-      <button id="submitBtn">
-        Submit Answer
-      </button>
+                <option value="Web Development">
+                    Web Development
+                </option>
 
-      <!-- SUBMITTED ANSWER -->
-      <div class="answer-display">
+                <option value="Data Science">
+                    Data Science
+                </option>
 
-        <h3>Your Submitted Answer:</h3>
+                <option value="Cyber Security">
+                    Cyber Security
+                </option>
 
-        <p id="submittedAnswer">
-          No answer submitted
-        </p>
+            </select>
 
-      </div>
+
+            <br><br>
+
+
+            <button id="startBtn">
+                Start Interview
+            </button>
+
+            <button id="nextBtn">
+                Next Question
+            </button>
+
+
+            <!-- QUESTION BOX -->
+
+            <div class="question-box">
+
+                <h2>Interview Question</h2>
+
+                <p id="questionText">
+                    Click Start Interview
+                </p>
+
+            </div>
+
+
+            <!-- ANSWER BOX -->
+
+            <textarea
+              id="answerBox"
+              placeholder="Type your answer here..."
+            ></textarea>
+
+
+            <br>
+
+
+            <button id="submitBtn">
+                Submit Answer
+            </button>
+
+
+            <div class="question-box">
+
+                <h2>Your Submitted Answer:</h2>
+
+                <p id="submittedAnswer"></p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RIGHT PANEL -->
+
+        <div class="right-panel">
+
+            <h1>Emotion Detection</h1>
+
+
+            <!-- WEBCAM -->
+
+            <video
+              id="webcam"
+              autoplay
+              playsinline
+            ></video>
+
+
+            <!-- FEEDBACK -->
+
+            <div class="feedback-box">
+
+                <h2>Feedback</h2>
+
+                <p id="confidence"></p>
+
+                <p id="eyeContact"></p>
+
+                <p id="posture"></p>
+
+                <p id="nervousness"></p>
+
+            </div>
+
+        </div>
+
 
     </div>
 
-
-    <!-- RIGHT SIDE -->
-    <div class="right-panel">
-
-      <h1>Emotion Detection</h1>
-
-      <video
-        id="webcam"
-        autoplay
-      ></video>
-
-      <div class="feedback-box">
-
-        <h2>Feedback</h2>
-
-        <p id="confidence">
-          Confidence: Good 🙂
-        </p>
-
-        <p id="eyeContact">
-          Eye Contact: Maintain 👀
-        </p>
-
-        <p id="posture">
-          Posture: Straight 👍
-        </p>
-
-        <p id="nervousness">
-          Nervousness: Low 😊
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
