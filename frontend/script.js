@@ -1,88 +1,10 @@
-// COMMON HR QUESTIONS
+// QUESTION STORAGE
 
-const commonQuestions = [
+let currentQuestions = [];
 
-  "Tell me about yourself",
-
-  "Explain your final year project",
-
-  "What are your strengths?",
-
-  "Why should we hire you?",
-
-  "Where do you see yourself in 5 years?",
-
-  "What are your weaknesses?"
-
-];
+let currentIndex = 0;
 
 
-
-
-// COURSE QUESTIONS
-
-const courseQuestions = {
-
-  "AI/ML":[
-
-    "What is Machine Learning?",
-
-    "Difference between AI and ML?",
-
-    "Explain Neural Networks",
-
-    "What is Deep Learning?",
-
-    "Explain supervised learning"
-
-  ],
-
-
-  "Web Development":[
-
-    "What is HTML?",
-
-    "Difference between CSS and Bootstrap?",
-
-    "Explain JavaScript",
-
-    "What is Responsive Design?",
-
-    "What is React?"
-
-  ],
-
-
-  "Data Science":[
-
-    "What is Data Science?",
-
-    "Explain Data Analysis",
-
-    "What is Pandas?",
-
-    "Explain NumPy",
-
-    "What is Data Visualization?"
-
-  ],
-
-
-  "Cyber Security":[
-
-    "What is Cyber Security?",
-
-    "Explain Firewall",
-
-    "What is Ethical Hacking?",
-
-    "Explain Phishing",
-
-    "What is Network Security?"
-
-  ]
-
-};
 // ELEMENTS
 const questionText =
   document.getElementById("questionText");
@@ -103,57 +25,99 @@ const submittedAnswer =
   document.getElementById("submittedAnswer");
 
 
-function askQuestion(){
+async function askQuestion(){
 
-  const selectedCourse =
-    courseSelect.value;
-
-  const technicalQuestions =
-    courseQuestions[selectedCourse];
+    const selectedCourse =
+      courseSelect.value;
 
 
+    try{
 
-  // COMBINE QUESTIONS
+        // FIRST TIME LOAD QUESTIONS
 
-  const allQuestions = [
+        if(currentQuestions.length === 0){
 
-    ...commonQuestions,
-
-    ...technicalQuestions
-
-  ];
-
-
-
-  const randomQuestion =
-    allQuestions[
-      Math.floor(Math.random()*allQuestions.length)
-    ];
+            const response =
+              await fetch(
+                `http://127.0.0.1:5000/api/question?course=${selectedCourse}`
+              );
 
 
-  questionText.innerText =
-    randomQuestion;
+            const data =
+              await response.json();
 
-    // CLEAR OLD ANSWER
 
-answerBox.value = "";
+            currentQuestions =
+              data.questions;
 
-submittedAnswer.innerText = "";
+        }
 
 
 
-  // AI VOICE
+        // INTERVIEW END
 
-  const speech =
-    new SpeechSynthesisUtterance(randomQuestion);
+        if(currentIndex >= currentQuestions.length){
 
-  speech.rate = 1;
+            questionText.innerText =
+              "Interview Completed Successfully 🎉";
 
-  speech.pitch = 1;
 
-  speech.volume = 1;
+            const speech =
+              new SpeechSynthesisUtterance(
+                "Interview Completed Successfully"
+              );
 
-  window.speechSynthesis.speak(speech);
+            window.speechSynthesis.speak(speech);
+
+            return;
+        }
+
+
+
+        // CURRENT QUESTION
+
+        const question =
+          currentQuestions[currentIndex];
+
+
+        questionText.innerText =
+          question;
+
+
+        // CLEAR OLD ANSWER
+
+        answerBox.value = "";
+
+        submittedAnswer.innerText = "";
+
+
+        // AI VOICE
+
+        const speech =
+          new SpeechSynthesisUtterance(question);
+
+        speech.rate = 1;
+
+        speech.pitch = 1;
+
+        speech.volume = 1;
+
+        window.speechSynthesis.speak(speech);
+
+
+        // NEXT QUESTION INDEX
+
+        currentIndex++;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert("Backend connection error");
+
+    }
 
 }
 
