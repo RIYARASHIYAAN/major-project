@@ -21,6 +21,9 @@ const answerBox =
 const submitBtn =
   document.getElementById("submitBtn");
 
+const micBtn =
+  document.getElementById("micBtn");
+
 const submittedAnswer =
   document.getElementById("submittedAnswer");
 
@@ -157,6 +160,65 @@ submitBtn.addEventListener("click", ()=>{
 const webcam =
   document.getElementById("webcam");
 
+// SPEECH TO TEXT
+
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+
+const recognition =
+  new SpeechRecognition();
+
+
+recognition.continuous = true;
+
+recognition.lang = "en-US";
+
+recognition.interimResults = true;
+
+
+
+// START SPEAKING
+
+micBtn.addEventListener("click", ()=>{
+
+    recognition.start();
+
+});
+
+
+
+// GET SPEECH RESULT
+
+// GET SPEECH RESULT
+
+recognition.onresult = (event)=>{
+
+    let currentTranscript = "";
+
+    for(
+
+        let i = event.resultIndex;
+
+        i < event.results.length;
+
+        i++
+
+    ){
+
+        currentTranscript +=
+          event.results[i][0].transcript + " ";
+    }
+
+
+    // ONLY CURRENT ANSWER
+
+    answerBox.value =
+      currentTranscript;
+
+};
+
 
 // OPEN CAMERA
 async function startWebcam(){
@@ -187,76 +249,142 @@ async function startWebcam(){
 // START CAMERA
 startWebcam();
 
+// LOAD AI MODELS - Wait for face-api to be available
+
+function loadModels() {
+  if (typeof faceapi === 'undefined') {
+    setTimeout(loadModels, 100);
+    return;
+  }
+
+  // LOAD AI MODELS
+
+async function loadModels(){
+
+    await faceapi.nets.tinyFaceDetector.loadFromUri('models');
+
+    await faceapi.nets.faceExpressionNet.loadFromUri('models');
+
+    console.log("AI Models Loaded");
+
+    startEmotionDetection();
+}
+
+loadModels();
+}
+
+loadModels();
 
 
 
-// FAKE EMOTION DETECTION
-setInterval(()=>{
 
-  const confidenceData = [
+// REAL-TIME EMOTION DETECTION
 
-    "Confidence: Excellent 😎",
+function startEmotionDetection(){
 
-    "Confidence: Good 🙂",
+    webcam.addEventListener("play", ()=>{
 
-    "Confidence: Moderate 😐",
+        console.log("Emotion Detection Started");
 
-    "Confidence: Low 😟"
+        setInterval(async ()=>{
 
-  ];
+            const detections =
+              await faceapi.detectSingleFace(
 
+                  webcam,
 
+                  new faceapi.TinyFaceDetectorOptions()
 
-  const eyeData = [
-
-    "Eye Contact: Good 👀",
-
-    "Eye Contact: Improve 👀"
-
-  ];
+              ).withFaceExpressions();
 
 
+            console.log(detections);
+            if(detections){
 
-  const postureData = [
-
-    "Posture: Straight 👍",
-
-    "Posture: Slouching ⚠️"
-
-  ];
+                const expressions =
+                  detections.expressions;
 
 
+                let maxValue = 0;
 
-  const nervousData = [
+                let emotion = "neutral";
 
-    "Nervousness: Low 😊",
 
-    "Nervousness: Medium 😐",
+                for(let key in expressions){
 
-    "Nervousness: High 😟"
+                    if(expressions[key] > maxValue){
 
-  ];
+                        maxValue = expressions[key];
+
+                        emotion = key;
+                    }
+                }
 
 
 
-  document.getElementById("confidence")
-    .innerText =
-      confidenceData[Math.floor(Math.random()*confidenceData.length)];
+                document.getElementById("confidence")
+                  .innerText =
+                    "Emotion: " + emotion;
 
 
-  document.getElementById("eyeContact")
-    .innerText =
-      eyeData[Math.floor(Math.random()*eyeData.length)];
+
+                // FEEDBACK
+
+                if(emotion === "happy"){
+
+                    document.getElementById("eyeContact")
+                      .innerText =
+                        "Eye Contact: Good 👀";
 
 
-  document.getElementById("posture")
-    .innerText =
-      postureData[Math.floor(Math.random()*postureData.length)];
+                    document.getElementById("nervousness")
+                      .innerText =
+                        "Confidence: High 😎";
 
 
-  document.getElementById("nervousness")
-    .innerText =
-      nervousData[Math.floor(Math.random()*nervousData.length)];
+                    document.getElementById("posture")
+                      .innerText =
+                        "Posture: Professional 👍";
+                }
+
+                else if(emotion === "sad"){
+
+                    document.getElementById("eyeContact")
+                      .innerText =
+                        "Improve Eye Contact 👀";
 
 
-},4000);
+                    document.getElementById("nervousness")
+                      .innerText =
+                        "Confidence: Low 😟";
+
+
+                    document.getElementById("posture")
+                      .innerText =
+                        "Sit Straight 👍";
+                }
+
+                else{
+
+                    document.getElementById("eyeContact")
+                      .innerText =
+                        "Eye Contact: Average 👀";
+
+
+                    document.getElementById("nervousness")
+                      .innerText =
+                        "Confidence: Moderate 😐";
+
+
+                    document.getElementById("posture")
+                      .innerText =
+                        "Posture: Normal 👍";
+                }
+
+            }
+
+        },1500);
+
+    });
+
+}
